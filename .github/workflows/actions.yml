@@ -6,6 +6,7 @@ env:
   PROJECT_NAME: ${{ secrets.PROJECT_NAME }}
   SCHEME: ${{ secrets.SCHEME }}
   CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+  EXTRA_FRAMEWORKS: ${{ secrets.EXTRA_FRAMEWORKS }}
 
 jobs:
   tests:
@@ -59,7 +60,7 @@ jobs:
       run: ./carthage.sh build --no-skip-current --platform ios
     
     - name: Archive
-      run: ./carthage.sh archive ${PROJECT_NAME}
+      run: ./carthage.sh archive ${PROJECT_NAME} ${EXTRA_FRAMEWORKS}
     
     - name: Release
       uses: yakuhzi/action-release@v1.2.0
