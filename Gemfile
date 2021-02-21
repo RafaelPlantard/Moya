@@ -2,8 +2,7 @@ source 'https://rubygems.org'
 
 gem 'xcpretty'
 
-gem 'cocoapods', '~> 1.6'
+gem 'cocoapods'
 gem 'rake'
-gem 'octokit', '~> 4.3'
-
+gem 'octokit'
 gem 'xcpretty-json-formatter'
