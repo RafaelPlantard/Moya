@@ -27,8 +27,8 @@ jobs:
       with:
         version: ${{ secrets.XCODE_VERSION }}
 
-    - name: Carthage Bootstrap
-      run: ./carthage.sh bootstrap --cache-builds --no-use-binaries --platform ios
+    - name: Bootstrap
+      run: carthage bootstrap --cache-builds --no-use-binaries --use-xcframeworks --platform ios
 
     - name: Run all tests
       run: xcodebuild clean build test -scheme "${SCHEME}" -destination "platform=iOS Simulator,name=iPhone 11" -enableCodeCoverage YES
@@ -57,10 +57,10 @@ jobs:
         version: ${{ secrets.XCODE_VERSION }}
 
     - name: Build
-      run: ./carthage.sh build --no-skip-current --platform ios
+      run: carthage build --no-skip-current --use-xcframeworks --platform ios
     
     - name: Archive
-      run: ./carthage.sh archive ${PROJECT_NAME} ${EXTRA_FRAMEWORKS}
+      run: carthage archive ${PROJECT_NAME} ${EXTRA_FRAMEWORKS}
     
     - name: Release
       uses: yakuhzi/action-release@v1.2.0

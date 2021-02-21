@@ -238,7 +238,8 @@ final class MoyaProviderSpec: QuickSpec {
             it("prepares the request using plugins") {
                 waitUntil { done in
                     let target: GitHub = .userProfile("ashfurrow")
-                    let token = provider.request(target) { _ in
+
+                    _ = provider.request(target) { _ in
                         done()
                     }
                 }
@@ -250,7 +251,8 @@ final class MoyaProviderSpec: QuickSpec {
 
                 waitUntil { done in
                     let target: GitHub = .userProfile("ashfurrow")
-                    let token = provider.request(target) { result in
+
+                    _ = provider.request(target) { result in
                         if case let .failure(error) = result {
                             receivedError = error
                         }
@@ -265,7 +267,8 @@ final class MoyaProviderSpec: QuickSpec {
                 var receivedStatusCode: Int?
                 waitUntil { done in
                     let target: GitHub = .userProfile("ashfurrow")
-                    let token = provider.request(target) { result in
+
+                    _ = provider.request(target) { result in
                         if case let .success(response) = result {
                             receivedStatusCode = response.statusCode
                         }
@@ -477,7 +480,7 @@ final class MoyaProviderSpec: QuickSpec {
             var provider: MoyaProvider<GitHub>!
 
             beforeEach {
-                let endpointResolution: MoyaProvider<GitHub>.RequestClosure = { endpoint, done in
+                let endpointResolution: MoyaProvider<GitHub>.RequestClosure = { _, done in
                     let underyingError = NSError(domain: "", code: 123, userInfo: nil)
                     done(.failure(.underlying(underyingError, nil)))
                 }
@@ -747,12 +750,12 @@ final class MoyaProviderSpec: QuickSpec {
             var provider: MoyaProvider<GitHubUserContent>!
 
             beforeEach {
-                //delete downloaded filed before each test
+                // delete downloaded filed before each test
                 let directoryURLs = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)
                 let file = directoryURLs.first!.appendingPathComponent("logo_github.png")
                 try? FileManager.default.removeItem(at: file)
 
-                //`responseTime(-4)` equals to 1000 bytes at a time. The sample data is 4000 bytes.
+                // `responseTime(-4)` equals to 1000 bytes at a time. The sample data is 4000 bytes.
                 HTTPStubs.stubRequests(passingTest: {$0.url!.path.hasSuffix("logo_github.png")}, withStubResponse: { _ in
                     return HTTPStubsResponse(data: GitHubUserContent.downloadMoyaWebContent("logo_github.png").sampleData, statusCode: 200, headers: nil).responseTime(-4)
                 })
@@ -767,7 +770,7 @@ final class MoyaProviderSpec: QuickSpec {
                 var completedValues: [Bool] = []
                 var error: MoyaError?
 
-                waitUntil(timeout: 10.0) { done in
+                waitUntil(timeout: .seconds(10)) { done in
                     let progressClosure: ProgressBlock = { progress in
                         progressObjects.append(progress.progressObject)
                         progressValues.append(progress.progress)
@@ -799,7 +802,7 @@ final class MoyaProviderSpec: QuickSpec {
                 var completedValues: [Bool] = []
                 var error: MoyaError?
 
-                waitUntil(timeout: 10.0) { done in
+                waitUntil(timeout: .seconds(10)) { done in
                     let progressClosure: ProgressBlock = { progress in
                         progressObjects.append(progress.progressObject)
                         progressValues.append(progress.progress)
@@ -827,12 +830,12 @@ final class MoyaProviderSpec: QuickSpec {
             var provider: MoyaProvider<GitHubUserContent>!
 
             beforeEach {
-                //delete downloaded filed before each test
+                // delete downloaded filed before each test
                 let directoryURLs = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)
                 let file = directoryURLs.first!.appendingPathComponent("logo_github.png")
                 try? FileManager.default.removeItem(at: file)
 
-                //`responseTime(-4)` equals to 1000 bytes at a time. The sample data is 4000 bytes.
+                // `responseTime(-4)` equals to 1000 bytes at a time. The sample data is 4000 bytes.
                 HTTPStubs.stubRequests(passingTest: {$0.url!.path.hasSuffix("logo_github.png")}, withStubResponse: { _ in
                     return HTTPStubsResponse(data: GitHubUserContent.downloadMoyaWebContent("logo_github.png").sampleData, statusCode: 200, headers: ["Content-Length": ""]).responseTime(-4)
                 })
@@ -847,7 +850,7 @@ final class MoyaProviderSpec: QuickSpec {
                 var completedValues: [Bool] = []
                 var error: MoyaError?
 
-                waitUntil(timeout: 10.0) { done in
+                waitUntil(timeout: .seconds(10)) { done in
                     let progressClosure: ProgressBlock = { progress in
                         progressObjects.append(progress.progressObject)
                         progressValues.append(progress.progress)
@@ -878,7 +881,7 @@ final class MoyaProviderSpec: QuickSpec {
                 var completedValues: [Bool] = []
                 var error: MoyaError?
 
-                waitUntil(timeout: 10.0) { done in
+                waitUntil(timeout: .seconds(10)) { done in
                     let progressClosure: ProgressBlock = { progress in
                         progressObjects.append(progress.progressObject)
                         progressValues.append(progress.progress)
@@ -917,7 +920,7 @@ final class MoyaProviderSpec: QuickSpec {
                 var completedValues: [Bool] = []
                 var error: MoyaError?
 
-                waitUntil(timeout: 10.0) { done in
+                waitUntil(timeout: .seconds(10)) { done in
                     let progressClosure: ProgressBlock = { progress in
                         progressObjects.append(progress.progressObject)
                         progressValues.append(progress.progress)
@@ -952,7 +955,7 @@ final class MoyaProviderSpec: QuickSpec {
                 var completedValues: [Bool] = []
                 var error: MoyaError?
 
-                waitUntil(timeout: 10.0) { done in
+                waitUntil(timeout: .seconds(10)) { done in
                     let progressClosure: ProgressBlock = { progress in
                         progressObjects.append(progress.progressObject)
                         progressValues.append(progress.progress)

@@ -98,7 +98,7 @@ final class EndpointSpec: QuickSpec {
 
             context("when task is .downloadDestination") {
                 itBehavesLike("endpoint with no request property changed") {
-                    let destination: DownloadDestination = { url, response in
+                    let destination: DownloadDestination = { url, _ in
                         return (destinationURL: url, options: [])
                     }
                     return ["task": Task.downloadDestination(destination), "endpoint": self.simpleGitHubEndpoint]
@@ -118,7 +118,7 @@ final class EndpointSpec: QuickSpec {
                 itBehavesLike("endpoint with encoded parameters") {
                     let parameters = ["Nemesis": "Harvey"]
                     let encoding = JSONEncoding.default
-                    let destination: DownloadDestination = { url, response in
+                    let destination: DownloadDestination = { url, _ in
                         return (destinationURL: url, options: [])
                     }
                     let endpoint = self.simpleGitHubEndpoint.replacing(task: .downloadParameters(parameters: parameters, encoding: encoding, destination: destination))
@@ -350,17 +350,17 @@ final class EndpointSpec: QuickSpec {
             context("when task is .requestCompositeParameters") {
                 it("throws an error when bodyEncoding is an URLEncoding.queryString") {
                     endpoint = endpoint.replacing(task: .requestCompositeParameters(bodyParameters: [:], bodyEncoding: URLEncoding.queryString, urlParameters: [:]))
-                    expect(expression: { _ = try? endpoint.urlRequest() }).to(throwAssertion())
+                    expect({ _ = try? endpoint.urlRequest() }).to(throwAssertion())
                 }
 
                 it("throws an error when bodyEncoding is an URLEncoding.default") {
                     endpoint = endpoint.replacing(task: .requestCompositeParameters(bodyParameters: [:], bodyEncoding: URLEncoding.default, urlParameters: [:]))
-                    expect(expression: { _ = try? endpoint.urlRequest() }).to(throwAssertion())
+                    expect({ _ = try? endpoint.urlRequest() }).to(throwAssertion())
                 }
 
                 it("doesn't throw an error when bodyEncoding is an URLEncoding.httpBody") {
                     endpoint = endpoint.replacing(task: .requestCompositeParameters(bodyParameters: [:], bodyEncoding: URLEncoding.httpBody, urlParameters: [:]))
-                    expect(expression: { _ = try? endpoint.urlRequest() }).toNot(throwAssertion())
+                    expect({ _ = try? endpoint.urlRequest() }).toNot(throwAssertion())
                 }
             }
             #endif

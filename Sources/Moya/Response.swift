@@ -131,6 +131,7 @@ public extension Response {
     ///
     /// - parameter atKeyPath: Optional key path at which to parse object.
     /// - parameter using: A `JSONDecoder` instance which is used to decode data to an object.
+    // swiftlint:disable:next cyclomatic_complexity
     func map<D: Decodable>(_ type: D.Type, atKeyPath keyPath: String? = nil, using decoder: JSONDecoder = JSONDecoder(), failsOnEmptyData: Bool = true) throws -> D {
         let serializeToData: (Any) throws -> Data? = { (jsonObject) in
             guard JSONSerialization.isValidJSONObject(jsonObject) else {
