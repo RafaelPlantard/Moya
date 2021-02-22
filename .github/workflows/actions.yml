@@ -57,7 +57,7 @@ jobs:
         version: ${{ secrets.XCODE_VERSION }}
 
     - name: Build
-      run: carthage build --no-skip-current --use-xcframeworks --platform ios
+      run: carthage build --no-skip-current --use-xcframeworks --cache-builds --platform ios
     
     - name: Archive
       run: carthage archive ${PROJECT_NAME} ${EXTRA_FRAMEWORKS}
